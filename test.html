@@ -3,292 +3,266 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sway Nightclub — BoldPage</title>
-  <meta name="description" content="Sway Nightclub is a Miami nightlife spot known for late nights, a strong atmosphere, and easy access to official links, directions, and contact details." />
+  <title>Sway Nightclub — BoldPage Premium</title>
+  <meta name="description" content="Official BoldPage for Sway Nightclub. Experience Miami's premier nightlife." />
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --bg: #050505;
-      --bg-soft: #0c0c0c;
-      --panel: #121212;
-      --panel-2: #181818;
-      --line: rgba(255, 255, 255, .06);
-      --line-soft: rgba(255, 255, 255, .03);
-      --text: #fdfdfd;
-      --muted: #a1a1aa;
+      --bg-accent: #0a0a0a;
+      --panel: rgba(20, 20, 20, 0.7);
+      --panel-border: rgba(255, 255, 255, 0.08);
       --yellow: #f0dc42;
-      --yellow-glow: rgba(240, 220, 66, 0.15);
-      --shadow: 0 20px 40px rgba(0,0,0,0.4);
-      --radius: 28px;
-      --max: 1220px;
-      --ease: cubic-bezier(0.23, 1, 0.32, 1); /* High-end easing */
+      --yellow-bright: #fff06a;
+      --text-main: #fcfcfc;
+      --text-muted: #949494;
+      --radius-lg: 32px;
+      --radius-md: 18px;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: #444; }
-
-    html { scroll-behavior: smooth; }
-
+    /* --- Global & Aesthetic Polish --- */
     body {
       margin: 0; padding: 0;
       background-color: var(--bg);
-      color: var(--text);
+      color: var(--text-main);
       font-family: 'Inter', sans-serif;
-      -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
+      line-height: 1.6;
     }
 
-    /* Subtle Noise Texture Overlay */
-    body::before {
-      content: "";
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-      opacity: 0.22; pointer-events: none; z-index: 50; contrast: 120%;
+    /* Custom Spotlight Cursor Effect */
+    .spotlight {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 999;
+      background: radial-gradient(600px circle at var(--x) var(--y), rgba(240, 220, 66, 0.04), transparent 80%);
     }
 
-    .wrap { width: min(calc(100% - 40px), var(--max)); margin: 0 auto; }
+    /* Grain Overlay */
+    body::after {
+      content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PScwIDAgMjAwIDIwMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48ZmlsdGVyIGlkPSduJz48ZmVUdXJidWxlbmNlIHR5cGU9J2ZyYWN0YWxOb2lzZScgYmFzZUZyZXF1ZW5jeT0nLjY1JyBvY3RhdmVzPSczJyBzdGl0Y2hUaWxlcz0nc3RpdGNoJy8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScgZmlsdGVyPSd1cmwoI24pJy8+PC9zdmc+');
+      opacity: 0.04; pointer-events: none; z-index: 1000;
+    }
+
+    .wrap { width: min(calc(100% - 48px), 1280px); margin: 0 auto; }
 
     /* --- Animations --- */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
-    }
-    .reveal.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .reveal { opacity: 0; transform: translateY(40px) scale(0.98); transition: all 1s var(--ease-out); }
+    .reveal.active { opacity: 1; transform: translateY(0) scale(1); }
+    
+    .stagger-item { opacity: 0; transform: translateY(20px); transition: all 0.6s var(--ease-out); }
+    .reveal.active .stagger-item { opacity: 1; transform: translateY(0); }
 
     /* --- Header --- */
     .site-header {
-      position: sticky; top: 0; z-index: 100;
-      backdrop-filter: blur(20px);
-      background: rgba(5, 5, 5, 0.8);
-      border-bottom: 1px solid var(--line);
-      transition: all 0.4s var(--ease);
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      backdrop-filter: blur(20px); border-bottom: 1px solid var(--panel-border);
+      background: rgba(5, 5, 5, 0.7);
     }
-    .site-header .inner {
-      min-height: 80px;
-      display: flex; align-items: center; justify-content: space-between;
+    .header-inner { height: 88px; display: flex; align-items: center; justify-content: space-between; }
+    
+    .logo { 
+      display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.1rem; 
+      letter-spacing: -0.02em; text-decoration: none; 
     }
-    .brand { display: flex; align-items: center; gap: 12px; font-weight: 900; }
-    .brand-mark {
-      min-width: 66px; height: 42px;
-      display: inline-flex; align-items: center; justify-content: center;
-      border-radius: 12px; background: var(--yellow); color: #000;
-      box-shadow: 0 0 20px var(--yellow-glow);
-      font-size: 1rem; transition: transform 0.3s var(--ease);
+    .logo-box { 
+      background: var(--yellow); color: #000; padding: 6px 12px; border-radius: 8px; 
+      transition: transform 0.3s var(--ease-out);
     }
-    .brand:hover .brand-mark { transform: scale(1.05) rotate(-2deg); }
-    .brand-type { text-transform: uppercase; letter-spacing: .2em; font-size: .9rem; }
-
-    .top-btn {
-      min-height: 44px; padding: 0 20px; border-radius: 12px; border: 1px solid var(--line);
-      background: rgba(255,255,255,0.03); font-weight: 600;
-      transition: all 0.3s var(--ease);
-    }
-    .top-btn:hover { background: #fff; color: #000; transform: translateY(-2px); }
+    .logo:hover .logo-box { transform: rotate(-5deg) scale(1.1); }
 
     /* --- Hero Section --- */
-    .hero { padding: 60px 0 40px; }
-    .hero-shell { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 30px; }
+    .hero { padding: 140px 0 60px; }
+    .bento-grid { display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 24px; }
 
-    .copy-panel {
-      min-height: 680px;
+    .hero-main {
+      background: linear-gradient(135deg, #121212 0%, #080808 100%);
+      border: 1px solid var(--panel-border); border-radius: var(--radius-lg);
+      padding: 60px; position: relative; overflow: hidden;
       display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 50px; border-radius: var(--radius);
-      background: linear-gradient(160deg, #111 0%, #080808 100%);
-      border: 1px solid var(--line);
-      position: relative; overflow: hidden;
+      min-height: 600px;
+    }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.05); padding: 8px 16px; 
+      border-radius: 100px; font-size: 0.75rem; font-weight: 700;
+      color: var(--yellow); border: 1px solid rgba(240, 220, 66, 0.2);
+      margin-bottom: 24px; width: fit-content;
     }
 
     h1 {
-      margin: 0; font-size: clamp(3.5rem, 6vw, 6.5rem);
-      line-height: 0.9; letter-spacing: -0.05em; font-weight: 800;
-      background: linear-gradient(to bottom, #fff 60%, #888);
+      font-size: clamp(3rem, 8vw, 6rem); line-height: 0.85; margin: 0;
+      letter-spacing: -0.06em; font-weight: 900;
+      background: linear-gradient(to bottom, #fff, #888);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
 
-    .descriptor { margin: 24px 0; font-size: 1.15rem; color: var(--muted); max-width: 500px; line-height: 1.6; }
+    .hero-main p { font-size: 1.2rem; color: var(--text-muted); max-width: 520px; margin: 24px 0 40px; }
 
-    .actions { display: flex; gap: 12px; margin-top: 30px; }
+    .btn-group { display: flex; gap: 16px; }
     .btn {
-      min-height: 56px; padding: 0 28px; border-radius: 16px; 
-      display: inline-flex; align-items: center; justify-content: center;
-      font-weight: 700; border: 1px solid var(--line); background: var(--panel-2);
-      transition: all 0.3s var(--ease); cursor: pointer;
+      padding: 18px 32px; border-radius: 14px; font-weight: 800; text-decoration: none;
+      transition: all 0.4s var(--ease-out); display: inline-flex; align-items: center;
     }
-    .btn.primary { background: var(--yellow); color: #000; border: none; }
-    .btn.primary:hover { transform: scale(1.03); box-shadow: 0 10px 30px var(--yellow-glow); }
-    .btn:not(.primary):hover { background: #222; border-color: #444; }
+    .btn-primary { background: var(--yellow); color: #000; }
+    .btn-primary:hover { transform: translateY(-4px); box-shadow: 0 15px 30px rgba(240, 220, 66, 0.2); }
+    .btn-secondary { border: 1px solid var(--panel-border); color: #fff; background: rgba(255,255,255,0.03); }
+    .btn-secondary:hover { background: #fff; color: #000; }
 
-    .image-panel {
-      border-radius: var(--radius); overflow: hidden; position: relative;
-      border: 1px solid var(--line); height: 100%;
+    .hero-side {
+      border-radius: var(--radius-lg); overflow: hidden; position: relative;
+      border: 1px solid var(--panel-border);
     }
-    .image-panel img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform 1.2s var(--ease);
-    }
-    .image-panel:hover img { transform: scale(1.1); }
+    .hero-side img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s var(--ease-out); }
+    .hero-side:hover img { transform: scale(1.1); }
 
-    /* --- Content Grid --- */
-    .content-grid { display: grid; grid-template-columns: 1fr 360px; gap: 30px; padding-bottom: 100px; }
+    /* --- Information Grid --- */
+    .content-area { padding: 40px 0 100px; display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
     
     .card {
-      background: var(--bg-soft); border: 1px solid var(--line);
-      border-radius: var(--radius); transition: all 0.4s var(--ease);
-      position: relative;
+      background: var(--panel); border: 1px solid var(--panel-border);
+      border-radius: var(--radius-lg); padding: 40px; height: 100%;
+      backdrop-filter: blur(10px); transition: border-color 0.4s;
     }
-    .card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-4px); }
+    .card:hover { border-color: rgba(255,255,255,0.15); }
+    
+    .card-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 20px; letter-spacing: -0.03em; }
 
-    .card-inner { padding: 40px; }
-    .title { font-size: 1.6rem; font-weight: 800; margin-bottom: 10px; }
-    .overview { font-size: 1.1rem; line-height: 1.8; color: #ccc; }
-    .overview strong { color: var(--yellow); font-weight: 600; }
+    .bento-mini-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 30px; }
+    .mini-box {
+      background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border);
+      padding: 24px; border-radius: var(--radius-md); transition: 0.3s;
+    }
+    .mini-box:hover { background: rgba(255,255,255,0.06); }
+    .mini-box span { font-size: 0.7rem; text-transform: uppercase; color: var(--yellow); font-weight: 800; display: block; margin-bottom: 8px; }
+    .mini-box p { margin: 0; font-weight: 700; font-size: 1.05rem; }
 
-    /* --- Bold Take --- */
-    .bold-take {
-      background: linear-gradient(90deg, rgba(240,220,66,0.08), transparent);
-      border-left: 3px solid var(--yellow); padding: 25px; border-radius: 0 20px 20px 0;
+    .take-box {
+      border-left: 4px solid var(--yellow); background: linear-gradient(90deg, rgba(240,220,66,0.05), transparent);
+      padding: 30px; border-radius: 0 20px 20px 0; font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; line-height: 1.4; color: #eee; font-style: italic;
     }
 
-    /* --- Highlights --- */
-    .service-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;
-      list-style: none; padding: 0;
+    /* --- Sidebar Info --- */
+    .info-bar { display: flex; flex-direction: column; gap: 24px; }
+    .row-item {
+      display: flex; flex-direction: column; gap: 4px; padding: 20px;
+      border-bottom: 1px solid var(--panel-border);
     }
-    .service-grid li {
-      background: rgba(255,255,255,0.03); border: 1px solid var(--line);
-      padding: 18px; border-radius: 18px; font-weight: 600;
-      transition: 0.3s var(--ease);
-    }
-    .service-grid li:hover { background: rgba(255,255,255,0.06); transform: translateX(5px); }
+    .row-item:last-child { border: none; }
+    .label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); font-weight: 800; }
+    .value { font-size: 1.1rem; font-weight: 600; color: #fff; }
 
-    /* --- Sidebar --- */
-    .mini {
-      background: var(--bg-soft); border: 1px solid var(--line);
-      border-radius: 24px; padding: 24px; margin-bottom: 24px;
-    }
-    .row {
-      background: rgba(255,255,255,0.02); border: 1px solid var(--line);
-      border-radius: 16px; padding: 16px; margin-bottom: 12px;
-      transition: 0.3s;
-    }
-    .row:hover { background: rgba(255,255,255,0.05); }
-    .row .k { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 4px; }
-    .row .v { font-weight: 700; color: #fff; }
-
-    @media (max-width: 1020px) {
-      .hero-shell, .content-grid { grid-template-columns: 1fr; }
-      .copy-panel { min-height: 500px; padding: 30px; }
-      .image-panel { height: 400px; }
+    @media (max-width: 1024px) {
+      .bento-grid, .content-area { grid-template-columns: 1fr; }
+      .hero-main { min-height: 450px; padding: 40px; }
+      .hero-side { height: 350px; }
     }
   </style>
 </head>
 <body>
 
+  <div class="spotlight"></div>
+
   <header class="site-header">
-    <div class="wrap inner">
-      <a class="brand" href="#">
-        <span class="brand-mark">BOLD</span>
-        <span class="brand-type">PAGE</span>
+    <div class="wrap header-inner">
+      <a href="#" class="logo">
+        <span class="logo-box">BOLD</span>
+        <span>PAGE</span>
       </a>
-      <a class="top-btn" href="#">Request Page</a>
+      <a href="#" class="btn btn-secondary" style="padding: 10px 20px; font-size: 0.9rem;">Join BoldPage</a>
     </div>
   </header>
 
   <main>
     <section class="hero wrap">
-      <div class="hero-shell">
-        <div class="copy-panel reveal">
-          <div style="margin-bottom: 20px; display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 700; color: var(--yellow);">
-            <span style="width: 8px; height: 8px; background: var(--yellow); border-radius: 50%; box-shadow: 0 0 10px var(--yellow);"></span>
-            FEATURED PROFILE
-          </div>
-          <h1>Sway Nightclub</h1>
-          <p class="descriptor">The definitive Miami nightlife experience. Late nights, high energy, and unparalleled vibes in the heart of the city.</p>
-          <div class="actions">
-            <a class="btn primary">Official Website</a>
-            <a class="btn">Get Directions</a>
+      <div class="bento-grid">
+        <div class="hero-main reveal">
+          <div class="eyebrow stagger-item">MIAMI NIGHTLIFE 2026</div>
+          <h1 class="stagger-item">Sway <br>Nightclub</h1>
+          <p class="stagger-item">A premium nightlife destination where high-energy atmosphere meets sophisticated design. Redefining the Miami late-night experience.</p>
+          <div class="btn-group stagger-item">
+            <a href="#" class="btn btn-primary">Book a Table</a>
+            <a href="#" class="btn btn-secondary">Official Links</a>
           </div>
         </div>
-
-        <div class="image-panel reveal" style="transition-delay: 0.2s;">
-          <img src="https://images.unsplash.com/photo-1566737236500-c8ac43014a8e?auto=format&fit=crop&w=1200&q=80" alt="Club Atmosphere">
+        <div class="hero-side reveal" style="transition-delay: 0.2s;">
+          <img src="https://images.unsplash.com/photo-1514525253361-bee8718a7c7d?auto=format&fit=crop&w=800&q=80" alt="Club Vibes">
         </div>
       </div>
     </section>
 
-    <section class="content wrap">
-      <div class="content-grid">
-        <div class="stack" style="display: flex; flex-direction: column; gap: 30px;">
-          
-          <section class="card reveal">
-            <div class="card-inner">
-              <h3 class="title">The Overview</h3>
-              <p class="overview">
-                <strong>Sway Nightclub</strong> stands as a pillar of Miami's legendary nightlife scene. This BoldPage profile serves as the official digital gateway for guests seeking a polished, direct connection to the venue's services, timing, and reservations.
-              </p>
-            </div>
-          </section>
-
-          <section class="card reveal">
-            <div class="card-inner">
-              <h3 class="title">The Bold Take</h3>
-              <div class="bold-take">
-                <p style="margin: 0; line-height: 1.6; font-style: italic;">
-                  "A sharp, no-nonsense destination for those who value atmosphere over noise. It’s the vibe you check before you head out."
-                </p>
+    <section class="wrap">
+      <div class="content-area">
+        <div class="main-stack">
+          <div class="card reveal" style="margin-bottom: 24px;">
+            <h2 class="card-title">Editorial Overview</h2>
+            <p style="font-size: 1.2rem; color: #bbb;">Sway isn't just a venue; it's a statement. Located in the pulse of Miami, it offers a dual-level experience curated for those who demand more from their nights out.</p>
+            
+            <div class="bento-mini-grid">
+              <div class="mini-box stagger-item">
+                <span>Vibe</span>
+                <p>High-Energy Electric</p>
+              </div>
+              <div class="mini-box stagger-item">
+                <span>Dress Code</span>
+                <p>Fashion Forward</p>
+              </div>
+              <div class="mini-box stagger-item">
+                <span>Music</span>
+                <p>Open Format & House</p>
+              </div>
+              <div class="mini-box stagger-item">
+                <span>Entry</span>
+                <p>Guestlist & Table Only</p>
               </div>
             </div>
-          </section>
-
-          <section class="card reveal">
-            <div class="card-inner">
-              <h3 class="title">Service Highlights</h3>
-              <ul class="service-grid">
-                <li>VIP Table Service</li>
-                <li>Express Guestlist</li>
-                <li>Curated DJ Lineups</li>
-                <li>Prime Miami Location</li>
-                <li>Elite Sound Systems</li>
-                <li>Private Event Booking</li>
-              </ul>
-            </div>
-          </section>
-        </div>
-
-        <aside class="side">
-          <div class="mini reveal">
-            <h3 style="font-size: 1.1rem; margin-top: 0;">Business Info</h3>
-            <div class="row">
-              <div class="k">Phone</div>
-              <div class="v">(305) 555-0111</div>
-            </div>
-            <div class="row">
-              <div class="k">Location</div>
-              <div class="v">111 Example Ave, Miami, FL</div>
-            </div>
-            <div class="row">
-              <div class="k">Hours</div>
-              <div class="v">Thu — Sun, 11PM - 4AM</div>
-            </div>
-            <p style="font-size: 0.75rem; color: var(--muted); margin: 20px 0 0;">Last verified: April 2026</p>
           </div>
 
-          <div class="mini reveal" style="background: var(--yellow); color: #000;">
-            <p style="margin: 0; font-weight: 800; font-size: 0.9rem;">BOLD TIP:</p>
-            <p style="margin: 5px 0 0; font-size: 0.85rem; line-height: 1.4;">Arrive before midnight on Fridays to avoid the primary rush at the door.</p>
+          <div class="card reveal">
+            <h2 class="card-title">The Bold Take</h2>
+            <div class="take-box">
+              "In a city that never sleeps, Sway provides the reason to stay awake. It's the perfect intersection of intimacy and spectacle."
+            </div>
+          </div>
+        </div>
+
+        <aside class="info-bar">
+          <div class="card reveal" style="padding: 20px;">
+            <div class="row-item">
+              <span class="label">Contact</span>
+              <span class="value">(305) 555-0199</span>
+            </div>
+            <div class="row-item">
+              <span class="label">Location</span>
+              <span class="value">111 Night Way, Miami FL</span>
+            </div>
+            <div class="row-item">
+              <span class="label">Operating Hours</span>
+              <span class="value">Thu—Sun: 11PM - 4AM</span>
+            </div>
+            <div class="row-item">
+              <span class="label">Status</span>
+              <span class="value" style="color: var(--yellow); display: flex; align-items: center; gap: 8px;">
+                <span style="width: 8px; height: 8px; background: var(--yellow); border-radius: 50%;"></span>
+                Live Profile
+              </span>
+            </div>
+          </div>
+
+          <div class="card reveal" style="background: var(--yellow); color: #000;">
+            <h3 style="margin: 0 0 10px; font-weight: 900;">Quick Access</h3>
+            <p style="margin: 0 0 20px; font-size: 0.9rem; font-weight: 600;">Download the official menu and table pricing below.</p>
+            <a href="#" class="btn" style="background: #000; color: #fff; width: 100%; justify-content: center;">View Floorplan</a>
           </div>
         </aside>
       </div>
@@ -296,33 +270,41 @@
   </main>
 
   <script>
-    // Reveal animations on scroll
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: "0px 0px -50px 0px"
-    };
+    // Spotlight Effect Logic
+    document.addEventListener('mousemove', e => {
+      document.documentElement.style.setProperty('--x', e.clientX + 'px');
+      document.documentElement.style.setProperty('--y', e.clientY + 'px');
+    });
 
+    // Intersection Observer for Reveal Logic
+    const observerOptions = { threshold: 0.15 };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('active');
+          // Trigger staggered items if any
+          const staggers = entry.target.querySelectorAll('.stagger-item');
+          staggers.forEach((item, index) => {
+            setTimeout(() => {
+              item.style.opacity = '1';
+              item.style.transform = 'translateY(0)';
+            }, index * 100);
+          });
         }
       });
     }, observerOptions);
 
-    document.querySelectorAll('.reveal').forEach(el => {
-      observer.observe(el);
-    });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // Subtle header shrink on scroll
+    // Scroll-based Header Styling
     window.addEventListener('scroll', () => {
       const header = document.querySelector('.site-header');
-      if (window.scrollY > 50) {
-        header.style.padding = '5px 0';
-        header.style.background = 'rgba(5, 5, 5, 0.95)';
+      if (window.scrollY > 20) {
+        header.style.background = 'rgba(5, 5, 5, 0.9)';
+        header.style.padding = '4px 0';
       } else {
+        header.style.background = 'rgba(5, 5, 5, 0.7)';
         header.style.padding = '0';
-        header.style.background = 'rgba(5, 5, 5, 0.8)';
       }
     });
   </script>
