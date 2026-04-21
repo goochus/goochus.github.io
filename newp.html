@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Adrian Vale — BoldPage</title>
+<meta name="description" content="Adrian Vale. Miami-based public figure. Visual presence, digital identity, and a page worth searching."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&family=Instrument+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+<style>
+/* ─── DESIGN TOKENS ─── */
+:root {
+  --bg:        #080709;
+  --bg-2:      #0e0c11;
+  --surface:   #100f14;
+  --surface-2: #181620;
+  --surface-3: #201e28;
+  --edge:      rgba(255,255,255,.055);
+  --edge-warm: rgba(184,151,58,.18);
+  --text:      #f0ebe0;
+  --text-2:    #a09b8e;
+  --text-3:    #5e5a52;
+  --gold:      #b8973a;
+  --gold-lt:   #d4b15c;
+  --gold-dk:   #7a6220;
+  --gold-glow: rgba(184,151,58,.12);
+  --ease:      cubic-bezier(.22,1,.36,1);
+  --ease2:     cubic-bezier(.16,1,.3,1);
+  --max:       1300px;
+  --fd:        'Playfair Display', Georgia, serif;
+  --fb:        'Instrument Sans', system-ui, sans-serif;
+}
+
+/* ─── RESET ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+html, body {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--fb);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+body { isolation: isolate; }
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+
+.wrap {
+  width: min(calc(100% - 48px), var(--max));
+  margin: 0 auto;
+  position: relative;
+  z-index: 3;
+}
+
+/* ─── AMBIENT STAGE ─── */
+.stage {
+  position: fixed; inset: 0;
+  pointer-events: none; overflow: hidden; z-index: 0;
+}
+.stage-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 65% 50% at 5% 0%, rgba(184,151,58,.07) 0%, transparent 100%),
+    radial-gradient(ellipse 45% 35% at 95% 5%, rgba(184,151,58,.045) 0%, transparent 100%),
+    radial-gradient(ellipse 55% 60% at 48% 105%, rgba(90,65,180,.04) 0%, transparent 100%),
+    linear-gradient(170deg, #0d0b12 0%, #06050a 100%);
+}
+.orb {
+  position: absolute; border-radius: 50%;
+  mix-blend-mode: screen;
+  animation: orbFloat 28s var(--ease) infinite;
+}
+.orb-1 {
+  width: 700px; height: 700px; top: -320px; left: -200px;
+  background: radial-gradient(circle, rgba(184,151,58,.09) 0%, transparent 65%);
+  filter: blur(72px); animation-duration: 30s;
+}
+.orb-2 {
+  width: 500px; height: 500px; right: -200px; top: 2%;
+  background: radial-gradient(circle, rgba(184,151,58,.055) 0%, transparent 62%);
+  filter: blur(60px); animation-delay: -10s; animation-duration: 36s;
+}
+.orb-3 {
+  width: 420px; height: 420px; left: 30%; bottom: -160px;
+  background: radial-gradient(circle, rgba(100,75,200,.05) 0%, transparent 60%);
+  filter: blur(56px); animation-delay: -18s; animation-duration: 42s;
+}
+.grid-layer {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.011) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.011) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.35) 15%, rgba(0,0,0,.55) 80%, transparent 100%);
+  opacity: .14; animation: gridDrift 50s linear infinite;
+}
+.sweep-layer {
+  position: absolute; inset: -25% -18%;
+  background: linear-gradient(106deg,
+    transparent 0%, transparent 38%,
+    rgba(255,255,255,.008) 46%,
+    rgba(184,151,58,.03) 50%,
+    rgba(255,255,255,.008) 54%,
+    transparent 62%, transparent 100%);
+  animation: sweepAnim 32s var(--ease2) 2s infinite; opacity: .9;
+}
+.film-layer {
+  position: absolute; inset: 0; opacity: .016;
+  background-image:
+    radial-gradient(circle at 22% 20%, rgba(255,255,255,.35) 1px, transparent 1px),
+    radial-gradient(circle at 72% 44%, rgba(255,255,255,.22) 1px, transparent 1px),
+    radial-gradient(circle at 54% 76%, rgba(255,255,255,.28) 1px, transparent 1px);
+  background-size: 21px 21px, 27px 27px, 25px 25px;
+  animation: grainAnim .5s steps(2) infinite;
+}
+
+/* ─── HEADER ─── */
+.site-header {
+  position: sticky; top: 0; z-index: 30;
+  backdrop-filter: blur(22px) saturate(1.4);
+  -webkit-backdrop-filter: blur(22px) saturate(1.4);
+  background: rgba(8,7,9,.48);
+  border-bottom: 1px solid transparent;
+  transition: background .5s var(--ease), border-color .5s var(--ease);
+}
+.site-header.scrolled {
+  background: rgba(8,7,9,.92);
+  border-bottom-color: rgba(255,255,255,.038);
+}
+.hdr-row {
+  height: 68px; display: flex; align-items: center;
+  justify-content: space-between; gap: 20px;
+}
+.brand {
+  display: inline-flex; align-items: center; gap: 10px;
+  opacity: 0; transform: translateY(10px);
+  animation: fadeUp .8s var(--ease) .05s forwards;
+}
+.brand-mark {
+  height: 38px; padding: 0 12px; border-radius: 9px;
+  background: linear-gradient(145deg, var(--gold-lt) 0%, var(--gold) 55%, var(--gold-dk) 100%);
+  color: #0c0900; font-family: var(--fb); font-size: .88rem;
+  font-weight: 600; letter-spacing: .06em;
+  display: flex; align-items: center;
+  position: relative; overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.07) inset, 0 4px 22px rgba(184,151,58,.22);
+}
+.brand-mark::after {
+  content: ""; position: absolute; inset: -50%;
+  background: linear-gradient(108deg, transparent 42%, rgba(255,255,255,.25) 50%, transparent 58%);
+  transform: translateX(-68%);
+  animation: shineAnim 7s var(--ease) 2.2s infinite;
+}
+.brand-word {
+  font-size: .88rem; font-weight: 500; letter-spacing: .2em;
+  text-transform: uppercase; color: #c8c4b8;
+}
+.hdr-status {
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 36px; padding: 0 14px; border-radius: 999px;
+  border: 1px solid var(--edge); background: rgba(255,255,255,.022);
+  font-size: .75rem; font-weight: 500; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--text-2);
+  opacity: 0; transform: translateY(10px);
+  animation: fadeUp .8s var(--ease) .18s forwards;
+}
+.status-pip {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--gold-lt);
+  box-shadow: 0 0 6px rgba(212,177,92,.7);
+  animation: pipPulse 2.6s ease infinite;
+}
+
+/* ─── HERO ─── */
+.hero {
+  position: relative; z-index: 4;
+  height: 100vh; min-height: 620px; max-height: 1040px;
+  overflow: hidden;
+}
+.hero-photo {
+  position: absolute; inset: 0; z-index: 0;
+  transform: scale(1.06);
+  animation: heroReveal 2s var(--ease) .05s both;
+}
+.hero-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center 20%;
+}
+.hero-vignette {
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    linear-gradient(to bottom,
+      rgba(8,7,9,.25) 0%,
+      rgba(8,7,9,.06) 22%,
+      rgba(8,7,9,.08) 54%,
+      rgba(8,7,9,.78) 80%,
+      rgba(8,7,9,.98) 100%),
+    linear-gradient(to right,
+      rgba(8,7,9,.62) 0%,
+      rgba(8,7,9,.18) 45%,
+      transparent 100%);
+}
+.hero-body {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding-bottom: 60px;
+}
+.hero-kicker {
+  font-family: var(--fb); font-size: .7rem;
+  letter-spacing: .26em; text-transform: uppercase;
+  color: var(--gold-lt); margin-bottom: 10px;
+  opacity: 0; transform: translateY(14px);
+  animation: fadeUp .9s var(--ease) .4s forwards;
+}
+.hero-name {
+  font-family: var(--fd);
+  font-size: clamp(4.6rem, 10vw, 9.8rem);
+  font-weight: 900; line-height: .82; letter-spacing: -.02em;
+  color: #f5f0e6;
+  text-shadow: 0 6px 80px rgba(0,0,0,.6);
+  opacity: 0; transform: translateY(30px) scale(.97);
+  animation: heroNameIn 1.15s var(--ease) .52s forwards;
+}
+.hero-name-it {
+  display: block; font-weight: 400; font-style: italic;
+  color: #ddd4bc; font-size: .72em; letter-spacing: .02em;
+}
+.hero-sub {
+  margin-top: 16px; font-size: clamp(.9rem, 1.5vw, 1.08rem);
+  font-weight: 300; color: #b8b3a6;
+  max-width: 460px; line-height: 1.72;
+  opacity: 0; transform: translateY(16px);
+  animation: fadeUp .9s var(--ease) .68s forwards;
+}
+.hero-divider {
+  width: 0; height: 1px; margin-top: 22px;
+  background: linear-gradient(90deg, var(--gold-lt), rgba(184,151,58,.15) 65%, transparent 100%);
+  animation: rulerGrow 1.1s var(--ease) .9s forwards;
+}
+.hero-chips {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px;
+  opacity: 0; transform: translateY(12px);
+  animation: fadeUp .9s var(--ease) 1.02s forwards;
+}
+.chip {
+  height: 34px; padding: 0 13px; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.045);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  font-size: .74rem; font-weight: 500; color: #ccc8be;
+  letter-spacing: .04em; display: inline-flex; align-items: center;
+  transition: border-color .35s var(--ease), background .35s var(--ease);
+  cursor: default;
+}
+.chip:hover { border-color: rgba(184,151,58,.3); background: rgba(184,151,58,.08); }
+.chip.accent {
+  border-color: rgba(184,151,58,.32);
+  background: rgba(184,151,58,.1); color: var(--gold-lt);
+}
+
+/* ─── NET WORTH HERO STAT ─── */
+.nw-banner {
+  position: relative; z-index: 5;
+  background: var(--surface);
+  border-top: 1px solid var(--edge-warm);
+  border-bottom: 1px solid var(--edge);
+  overflow: hidden;
+}
+.nw-banner::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 100% at 50% 50%, rgba(184,151,58,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.nw-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  min-height: 110px; gap: 0;
+  position: relative; z-index: 1;
+}
+.nw-left, .nw-right {
+  display: flex; flex-direction: column; gap: 4px; padding: 24px 0;
+}
+.nw-right { align-items: flex-end; }
+.nw-stat-label {
+  font-size: .66rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--text-3); font-weight: 500;
+}
+.nw-stat-val {
+  font-family: var(--fd); font-size: 1.6rem; font-weight: 700;
+  color: #e8e3d8; line-height: 1;
+}
+.nw-center {
+  text-align: center; padding: 0 40px;
+  border-left: 1px solid var(--edge);
+  border-right: 1px solid var(--edge);
+}
+.nw-label {
+  font-size: .64rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 6px; font-weight: 500;
+}
+.nw-figure {
+  font-family: var(--fd);
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-weight: 900; letter-spacing: -.02em;
+  color: var(--gold-lt); line-height: 1;
+  text-shadow: 0 0 60px rgba(184,151,58,.28);
+}
+.nw-note {
+  font-size: .7rem; color: var(--text-3);
+  margin-top: 5px; letter-spacing: .04em;
+}
+
+/* ─── REVEAL ─── */
+.reveal { opacity: 1; transform: none; }
+.js .reveal {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity .85s var(--ease), transform .85s var(--ease);
+}
+.js .reveal.on { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: .08s; }
+.d2 { transition-delay: .16s; }
+.d3 { transition-delay: .24s; }
+.d4 { transition-delay: .34s; }
+
+/* ─── PAGE BODY ─── */
+.page-body {
+  position: relative; z-index: 4;
+  padding: 36px 0 90px;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 22px; align-items: start;
+}
+.col > * + * { margin-top: 20px; }
+
+/* ─── CARDS ─── */
+.card {
+  position: relative;
+  border: 1px solid var(--edge);
+  border-radius: 22px; overflow: hidden;
+  background: linear-gradient(155deg, rgba(255,255,255,.022) 0%, rgba(255,255,255,.006) 100%), var(--surface);
+  box-shadow: 0 18px 60px rgba(0,0,0,.32);
+  transition: transform .45s var(--ease), border-color .4s var(--ease), box-shadow .45s var(--ease);
+}
+.card::after {
+  content: ""; position: absolute; inset: 0;
+  pointer-events: none;
+  background: radial-gradient(520px 180px at var(--mx, 50%) var(--my, -20%), rgba(184,151,58,.06) 0%, transparent 55%);
+  opacity: 0; transition: opacity .4s var(--ease);
+  border-radius: inherit;
+}
+.card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(184,151,58,.14);
+  box-shadow: 0 28px 80px rgba(0,0,0,.42);
+}
+.card:hover::after { opacity: 1; }
+.card-pad { padding: 28px; }
+.card-pad-sm { padding: 22px; }
+
+/* ─── TYPOGRAPHY SYSTEM ─── */
+.section-label {
+  font-size: .67rem; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--gold);
+  font-weight: 500; margin-bottom: 10px;
+}
+.section-title {
+  font-family: var(--fd); font-size: 1.55rem;
+  font-weight: 700; letter-spacing: -.02em;
+  color: #ede8de; line-height: 1.15;
+  margin-bottom: 6px;
+}
+.section-sub {
+  font-size: .88rem; color: var(--text-2);
+  line-height: 1.65; margin-bottom: 20px;
+}
+
+/* ─── IDENTITY CARD ─── */
+.id-card-grid {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 20px; align-items: center;
+}
+.id-avatar {
+  width: 96px; height: 96px;
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--edge-warm);
+  box-shadow: 0 10px 36px rgba(0,0,0,.45);
+  flex-shrink: 0;
+}
+.id-avatar img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+}
+.id-name {
+  font-family: var(--fd); font-size: 1.85rem;
+  font-weight: 700; letter-spacing: -.02em;
+  color: #ede8de; line-height: 1;
+}
+.id-name em { font-style: italic; font-weight: 400; color: #c4baa6; }
+.id-handle {
+  font-size: .78rem; color: var(--text-3);
+  letter-spacing: .08em; text-transform: uppercase;
+  margin-top: 7px; margin-bottom: 12px;
+}
+.id-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.id-tag {
+  height: 26px; padding: 0 10px; border-radius: 999px;
+  border: 1px solid var(--edge); background: var(--surface-2);
+  font-size: .72rem; color: var(--text-2);
+  letter-spacing: .04em; display: inline-flex; align-items: center;
+  transition: border-color .3s var(--ease), color .3s var(--ease);
+}
+.id-tag:hover { border-color: rgba(184,151,58,.25); color: var(--gold-lt); }
+
+/* ─── BIO ─── */
+.bio {
+  font-size: 1.02rem; font-weight: 300;
+  color: #cdc9be; line-height: 1.84;
+}
+.bio strong { font-weight: 500; color: #ede8de; }
+.bio + .bio { margin-top: 14px; }
+
+/* ─── PULL QUOTE ─── */
+.pull {
+  padding: 22px 22px 22px 24px;
+  border-left: 2px solid var(--gold);
+  border-radius: 0 16px 16px 0;
+  background: linear-gradient(135deg, rgba(184,151,58,.07) 0%, rgba(184,151,58,.018) 100%);
+}
+.pull-eyebrow {
+  font-size: .64rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 10px; opacity: .85;
+}
+.pull-text {
+  font-family: var(--fd); font-size: 1.18rem;
+  font-style: italic; font-weight: 400;
+  color: #e8e2d6; line-height: 1.7;
+}
+
+/* ─── DATA GRID ─── */
+.data-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.data-cell {
+  padding: 15px 16px; border-radius: 14px;
+  background: var(--surface-2); border: 1px solid var(--edge);
+  transition: transform .35s var(--ease), border-color .35s var(--ease);
+}
+.data-cell:hover {
+  transform: translateY(-2px);
+  border-color: rgba(184,151,58,.15);
+}
+.data-k {
+  font-size: .66rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--text-3);
+  margin-bottom: 6px;
+}
+.data-v {
+  font-size: .95rem; font-weight: 500;
+  color: #e8e4da; line-height: 1.4;
+}
+.data-v.dim { color: var(--text-2); font-weight: 400; }
+
+/* ─── ASSOCIATED LIST ─── */
+.assoc-list {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px; list-style: none;
+}
+.assoc-item {
+  padding: 13px 16px; border-radius: 12px;
+  border: 1px solid var(--edge); background: var(--surface-2);
+  font-size: .9rem; font-weight: 400; color: #d8d4ca;
+  line-height: 1.4;
+  transition: transform .35s var(--ease), border-color .35s var(--ease), color .35s var(--ease);
+}
+.assoc-item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(184,151,58,.14);
+  color: #ede8de;
+}
+
+/* ─── SOCIAL BUTTONS ─── */
+.social-strip {
+  display: flex; flex-wrap: wrap; gap: 9px; margin-top: 22px;
+}
+.btn {
+  height: 46px; padding: 0 20px; border-radius: 11px;
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--fb); font-size: .86rem; font-weight: 500;
+  letter-spacing: .02em; cursor: pointer;
+  transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s var(--ease), background .4s var(--ease);
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-gold {
+  background: linear-gradient(145deg, var(--gold-lt) 0%, var(--gold) 55%, var(--gold-dk) 100%);
+  color: #0c0900; border: none;
+  box-shadow: 0 6px 24px rgba(184,151,58,.22);
+}
+.btn-gold:hover { box-shadow: 0 12px 38px rgba(184,151,58,.34); }
+.btn-ghost {
+  background: var(--surface-2); border: 1px solid var(--edge); color: #d8d4c8;
+}
+.btn-ghost:hover { border-color: rgba(184,151,58,.22); background: var(--surface-3); }
+
+/* ─── SIDEBAR ─── */
+.side-label {
+  font-size: .68rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--text-3); font-weight: 500;
+  padding: 20px 22px 14px; border-bottom: 1px solid var(--edge);
+}
+.side-body { padding: 18px 22px 22px; }
+.pres-row {
+  padding: 11px 0; border-bottom: 1px solid var(--edge);
+  display: flex; flex-direction: column; gap: 2px;
+  transition: transform .3s var(--ease);
+}
+.pres-row:last-of-type { border-bottom: none; }
+.pres-row:hover { transform: translateX(3px); }
+.pk { font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text-3); }
+.pv { font-size: .92rem; font-weight: 500; color: #e4e0d6; }
+
+.edit-note {
+  padding: 16px 16px 16px 18px;
+  border-left: 2px solid rgba(255,255,255,.09);
+  border-radius: 0 12px 12px 0;
+  background: rgba(255,255,255,.02);
+  font-size: .92rem; font-style: italic;
+  color: #a09b8e; line-height: 1.7;
+}
+.ts { font-size: .76rem; color: var(--text-3); margin-top: 14px; letter-spacing: .03em; }
+
+/* ─── SCROLL INDICATOR ─── */
+.scroll-cue {
+  position: absolute; right: 36px; bottom: 52px; z-index: 3;
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+  opacity: 0; animation: fadeUp .9s var(--ease) 1.4s forwards;
+}
+.scroll-line {
+  width: 1px; height: 48px;
+  background: linear-gradient(180deg, var(--gold-lt), transparent);
+  animation: scrollBreath 2.2s ease infinite;
+}
+.scroll-txt {
+  font-size: .62rem; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--text-3);
+  writing-mode: vertical-rl;
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp   { to { opacity: 1; transform: translateY(0); } }
+@keyframes heroReveal { from { transform: scale(1.1); opacity: 0; } to { transform: scale(1.04); opacity: 1; } }
+@keyframes heroNameIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes rulerGrow { from { width: 0; opacity: 0; } to { width: 200px; opacity: 1; } }
+@keyframes shineAnim { 0%,100% { transform: translateX(-70%); } 40%,60% { transform: translateX(82%); } }
+@keyframes orbFloat  { 0%,100%{transform:translate3d(0,0,0) scale(1)} 30%{transform:translate3d(18px,14px,0) scale(1.03)} 60%{transform:translate3d(-10px,30px,0) scale(.98)} 82%{transform:translate3d(12px,-7px,0) scale(1.02)} }
+@keyframes sweepAnim { 0%{transform:translateX(-44%)} 100%{transform:translateX(44%)} }
+@keyframes gridDrift { 0%{transform:translate3d(0,0,0)} 100%{transform:translate3d(0,80px,0)} }
+@keyframes grainAnim { 0%{transform:translate(0,0)} 25%{transform:translate(-1px,1px)} 50%{transform:translate(1px,-1px)} 75%{transform:translate(1px,1px)} }
+@keyframes pipPulse  { 0%,100%{opacity:1;box-shadow:0 0 6px rgba(212,177,92,.7)} 50%{opacity:.35;box-shadow:0 0 12px rgba(212,177,92,.3)} }
+@keyframes scrollBreath { 0%,100%{transform:scaleY(1);opacity:1} 50%{transform:scaleY(.55);opacity:.35} }
+
+/* ─── REDUCED MOTION ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .brand, .hdr-status, .hero-kicker, .hero-name, .hero-sub,
+  .hero-chips, .scroll-cue, .reveal { opacity: 1 !important; transform: none !important; }
+  .hero-divider { width: 200px !important; opacity: 1 !important; }
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1060px) {
+  .layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .wrap { width: min(calc(100% - 28px), var(--max)); }
+  .hdr-row { height: 60px; }
+  .hero-name { font-size: clamp(3.6rem, 13vw, 5.8rem); }
+  .scroll-cue { display: none; }
+  .nw-inner { grid-template-columns: 1fr; text-align: center; gap: 0; }
+  .nw-left, .nw-right { display: none; }
+  .nw-center { border: none; padding: 22px 0; }
+  .data-grid { grid-template-columns: 1fr; }
+  .assoc-list { grid-template-columns: 1fr; }
+  .id-card-grid { grid-template-columns: 1fr; }
+  .social-strip .btn { flex: 1 1 calc(50% - 6px); justify-content: center; }
+  .card-pad { padding: 22px; }
+}
+@media (max-width: 420px) {
+  .social-strip .btn { flex: 1 1 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="stage" aria-hidden="true">
+  <div class="stage-bg"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="grid-layer"></div>
+  <div class="sweep-layer"></div>
+  <div class="film-layer"></div>
+</div>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap hdr-row">
+    <a class="brand" href="#">
+      <span class="brand-mark">BOLD</span>
+      <span class="brand-word">Page</span>
+    </a>
+    <div class="hdr-status">
+      <span class="status-pip"></span>
+      Public Profile
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-photo">
+      <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=1800&q=88"
+           alt="Adrian Vale" loading="eager" fetchpriority="high"/>
+    </div>
+    <div class="hero-vignette"></div>
+    <div class="hero-body">
+      <div class="wrap">
+        <p class="hero-kicker">Miami &nbsp;·&nbsp; Public Figure &nbsp;·&nbsp; Digital Identity</p>
+        <h1 class="hero-name">
+          Adrian
+          <span class="hero-name-it">Vale</span>
+        </h1>
+        <p class="hero-sub">Known for visual presence, intentional image, and a profile worth searching up.</p>
+        <div class="hero-divider"></div>
+        <div class="hero-chips">
+          <span class="chip accent">Public Profile</span>
+          <span class="chip">Miami, FL</span>
+          <span class="chip">Visual Direction</span>
+          <span class="chip">Creative Identity</span>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true">
+      <div class="scroll-line"></div>
+      <span class="scroll-txt">Scroll</span>
+    </div>
+  </section>
+
+  <!-- NET WORTH BANNER -->
+  <div class="nw-banner">
+    <div class="wrap nw-inner">
+      <div class="nw-left">
+        <span class="nw-stat-label">Based In</span>
+        <span class="nw-stat-val">Miami, FL</span>
+      </div>
+      <div class="nw-center">
+        <div class="nw-label">Estimated Net Worth</div>
+        <div class="nw-figure">$2.4M</div>
+        <div class="nw-note">Estimated — not publicly confirmed</div>
+      </div>
+      <div class="nw-right">
+        <span class="nw-stat-label">Known Since</span>
+        <span class="nw-stat-val">2018</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE BODY -->
+  <section class="page-body">
+    <div class="wrap">
+      <div class="layout">
+
+        <!-- MAIN COLUMN -->
+        <div class="col">
+
+          <!-- Identity Quick Card -->
+          <div class="card reveal">
+            <div class="card-pad">
+              <div class="id-card-grid">
+                <div class="id-avatar">
+                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=85"
+                       alt="Adrian Vale portrait"/>
+                </div>
+                <div>
+                  <div class="id-name">Adrian <em>Vale</em></div>
+                  <div class="id-handle">@adrianvale &nbsp;·&nbsp; Miami, FL</div>
+                  <div class="id-tags">
+                    <span class="id-tag">Public Figure</span>
+                    <span class="id-tag">Visual Identity</span>
+                    <span class="id-tag">Creative Direction</span>
+                    <span class="id-tag">Miami</span>
+                  </div>
+                </div>
+              </div>
+              <div class="social-strip">
+                <a class="btn btn-gold" href="#">Instagram</a>
+                <a class="btn btn-ghost" href="#">Website</a>
+                <a class="btn btn-ghost" href="#">Contact</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bio -->
+          <div class="card reveal d1">
+            <div class="card-pad">
+              <div class="section-label">Profile Overview</div>
+              <p class="bio">
+                Adrian Vale is a Miami-based public figure built around <strong>image, visual direction, and a deliberate online presence.</strong> This page gives people one definitive place to understand who he is — not a resume, not a link tree, but a profile that reads like someone worth paying attention to.
+              </p>
+              <p class="bio" style="margin-top: 14px;">
+                Known in Miami's creative and nightlife-adjacent spaces, Adrian has built a reputation for showing up polished, carrying an identity that reads instantly, and maintaining a presence that feels more curated than accidental.
+              </p>
+            </div>
+          </div>
+
+          <!-- Bold Take -->
+          <div class="card reveal d2">
+            <div class="card-pad">
+              <div class="section-label">The Bold Take</div>
+              <div class="pull">
+                <div class="pull-eyebrow">Editorial Read</div>
+                <div class="pull-text">
+                  "Fewer people have a page this clean. The kind of profile that makes you look twice — not because it's flashy, but because it feels real, intentional, and worth taking seriously."
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Profile Notes -->
+          <div class="card reveal d1">
+            <div class="card-pad">
+              <div class="section-label">Profile Notes</div>
+              <div class="section-sub">Identity framing that says more than a standard bio.</div>
+              <div class="data-grid">
+                <div class="data-cell">
+                  <div class="data-k">Known For</div>
+                  <div class="data-v">Polished visual identity and nightlife-adjacent presence</div>
+                </div>
+                <div class="data-cell">
+                  <div class="data-k">Main Focus</div>
+                  <div class="data-v">Digital identity and public-facing image</div>
+                </div>
+                <div class="data-cell">
+                  <div class="data-k">Public Presence</div>
+                  <div class="data-v">Instagram, personal site, direct contact</div>
+                </div>
+                <div class="data-cell">
+                  <div class="data-k">Best Described As</div>
+                  <div class="data-v">Image-aware, internet-native, profile-conscious</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Associated With -->
+          <div class="card reveal d2">
+            <div class="card-pad">
+              <div class="section-label">Associated With</div>
+              <ul class="assoc-list">
+                <li class="assoc-item">Nightlife-adjacent branding</li>
+                <li class="assoc-item">Visual presence &amp; profile building</li>
+                <li class="assoc-item">Creative direction</li>
+                <li class="assoc-item">Polished online identity</li>
+                <li class="assoc-item">Shareable public profile</li>
+                <li class="assoc-item">Strong internet positioning</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="col">
+
+          <!-- Snapshot -->
+          <div class="card reveal d2">
+            <div class="side-label">Profile Snapshot</div>
+            <div class="side-body">
+              <div class="data-grid" style="grid-template-columns: 1fr;">
+                <div class="data-cell">
+                  <div class="data-k">Based In</div>
+                  <div class="data-v">Miami, Florida</div>
+                </div>
+                <div class="data-cell">
+                  <div class="data-k">Estimated Net Worth</div>
+                  <div class="data-v" style="color: var(--gold-lt); font-family: var(--fd); font-size: 1.2rem;">$2.4 Million</div>
+                </div>
+                <div class="data-cell">
+                  <div class="data-k">Date of Birth</div>
+                  <div class="data-v dim">Not Public</div>
+                </div>
+                <div class="data-cell">
+                  <div class="data-k">Height</div>
+                  <div class="data-v dim">Not Listed</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Presence -->
+          <div class="card reveal d2">
+            <div class="side-label">Online Presence</div>
+            <div class="side-body">
+              <div class="pres-row">
+                <span class="pk">Instagram</span>
+                <span class="pv">@adrianvale</span>
+              </div>
+              <div class="pres-row">
+                <span class="pk">Website</span>
+                <span class="pv">adrianvale.co</span>
+              </div>
+              <div class="pres-row">
+                <span class="pk">Location</span>
+                <span class="pv">Miami, Florida</span>
+              </div>
+              <div class="pres-row">
+                <span class="pk">Contact</span>
+                <span class="pv">hello@adrianvale.co</span>
+              </div>
+              <p class="ts">Last updated April 2026</p>
+            </div>
+          </div>
+
+          <!-- Profile Note -->
+          <div class="card reveal d3">
+            <div class="card-pad-sm">
+              <div class="edit-note">
+                More identity-forward than a business page. More important-feeling than a random profile. This is what a real public-facing presence looks like.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function () {
+  const hdr = document.getElementById('siteHeader');
+  const pref = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* scroll header */
+  window.addEventListener('scroll', () => {
+    hdr.classList.toggle('scrolled', window.scrollY > 28);
+  }, { passive: true });
+
+  /* scroll reveals */
+  if (!pref && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); }
+      });
+    }, { threshold: .10, rootMargin: '0px 0px -32px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('on'));
+  }
+
+  /* card pointer light */
+  if (!pref) {
+    let raf = null;
+    document.querySelectorAll('.card').forEach(el => {
+      el.addEventListener('pointermove', e => {
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          const r = el.getBoundingClientRect();
+          el.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+          el.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+        });
+      }, { passive: true });
+      el.addEventListener('pointerleave', () => {
+        el.style.setProperty('--mx', '50%');
+        el.style.setProperty('--my', '-20%');
+      });
+    });
+
+    /* subtle hero parallax */
+    const photo = document.querySelector('.hero-photo');
+    if (photo) {
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        if (y < window.innerHeight) {
+          photo.style.transform = `translateY(${y * 0.28}px) scale(1.04)`;
+        }
+      }, { passive: true });
+    }
+  }
+})();
+</script>
+</body>
+</html>
