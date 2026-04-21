@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BoldPage</title>
+<meta name="description" content="BoldPage. The page that makes you matter."/>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Instrument+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+
+/* ─── TOKENS ─── */
+:root {
+  --bg:      #07060a;
+  --text:    #ede8dc;
+  --muted:   #7a786f;
+  --dim:     #3e3c37;
+  --gold:    #b08a3c;
+  --gold-lt: #ccaa62;
+  --gold-dk: #6c4e14;
+  --edge:    rgba(255,255,255,.048);
+  --ease:    cubic-bezier(.22,1,.36,1);
+  --ease-h:  cubic-bezier(.14,1,.22,1);
+  --fd:      'Cormorant Garamond', Georgia, serif;
+  --fb:      'Instrument Sans', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--fb);
+  font-size: 16px;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  min-height: 100vh;
+  min-height: 100svh;
+  isolation: isolate;
+}
+
+/* ─── AMBIENT FIELD ─── */
+.field {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none; overflow: hidden;
+}
+.field-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 62% 50% at 8% 0%,  rgba(176,138,60,.058) 0%, transparent 100%),
+    radial-gradient(ellipse 44% 38% at 94% 5%,  rgba(80,55,160,.04)  0%, transparent 100%),
+    radial-gradient(ellipse 50% 60% at 50% 108%, rgba(176,138,60,.042) 0%, transparent 100%),
+    linear-gradient(165deg, #0d0b12 0%, #050409 100%);
+}
+/* Single slow orb — warm, barely visible */
+.orb {
+  position: absolute;
+  width: 820px; height: 820px;
+  top: -380px; left: -220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(176,138,60,.07) 0%, transparent 62%);
+  filter: blur(90px);
+  mix-blend-mode: screen;
+  animation: orbDrift 38s cubic-bezier(.22,1,.36,1) infinite;
+}
+/* Grid — barely there */
+.grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.007) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.007) 1px, transparent 1px);
+  background-size: 88px 88px;
+  mask-image: linear-gradient(180deg,
+    transparent 0%,
+    rgba(0,0,0,.22) 14%,
+    rgba(0,0,0,.38) 84%,
+    transparent 100%);
+  animation: gridDrift 60s linear infinite;
+}
+/* Film */
+.film {
+  position: absolute; inset: 0; opacity: .011;
+  background-image:
+    radial-gradient(circle at 22% 24%, rgba(255,255,255,.28) 1px, transparent 1px),
+    radial-gradient(circle at 70% 48%, rgba(255,255,255,.18) 1px, transparent 1px),
+    radial-gradient(circle at 50% 80%, rgba(255,255,255,.22) 1px, transparent 1px);
+  background-size: 24px 24px, 30px 30px, 28px 28px;
+  animation: grain .55s steps(2) infinite;
+}
+
+/* ─── LAYOUT ─── */
+.page {
+  position: relative; z-index: 2;
+  min-height: 100vh; min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+/* ─── MASTHEAD ─── */
+.masthead {
+  padding: 36px 0 0;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.masthead-inner {
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+  opacity: 0; transform: translateY(10px);
+  animation: riseIn .9s var(--ease) .1s forwards;
+}
+/* The wordmark */
+.wordmark {
+  font-family: var(--fd);
+  font-size: clamp(2.2rem, 5.5vw, 4.8rem);
+  font-weight: 300;
+  letter-spacing: .42em;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 1;
+  /* Slight optical refinement: pull back the trailing tracking gap */
+  margin-right: -.42em;
+}
+/* The badge below the wordmark */
+.masthead-rule {
+  margin-top: 9px;
+  display: flex; align-items: center; gap: 10px;
+}
+.masthead-rule-line {
+  height: 1px; width: 32px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+.masthead-rule-line.r { background: linear-gradient(90deg, var(--gold), transparent); }
+.edition-tag {
+  font-size: .6rem; letter-spacing: .26em; text-transform: uppercase;
+  color: var(--gold); font-family: var(--fb); font-weight: 400;
+}
+
+/* ─── HERO COVER ─── */
+.cover {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 0 24px;
+  position: relative;
+}
+
+/* Publication-style cover lines */
+.cover-inner {
+  width: min(100%, 900px);
+  position: relative;
+}
+
+/* COVER ORNAMENT — the horizontal thin line above headline */
+.cover-ornament {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  margin-bottom: 28px;
+  opacity: 0; transform: translateY(8px);
+  animation: riseIn .8s var(--ease) .36s forwards;
+}
+.orn-line {
+  height: 1px; width: 60px;
+  background: linear-gradient(90deg, transparent, rgba(176,138,60,.5));
+}
+.orn-line.r { background: linear-gradient(90deg, rgba(176,138,60,.5), transparent); }
+.orn-diamond {
+  width: 4px; height: 4px; border-radius: 1px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  box-shadow: 0 0 8px rgba(176,138,60,.5);
+}
+
+/* THE HEADLINE — magazine cover scale */
+.headline {
+  font-family: var(--fd);
+  font-size: clamp(4.4rem, 11.5vw, 11.2rem);
+  font-weight: 700;
+  line-height: .86;
+  letter-spacing: -.025em;
+  color: #f4f0e4;
+  text-shadow: 0 4px 80px rgba(0,0,0,.5);
+  opacity: 0;
+  transform: translateY(36px) scale(.97);
+  animation: coverReveal 1.3s var(--ease-h) .48s forwards;
+}
+.headline em {
+  font-style: italic; font-weight: 300;
+  color: #d6cdb8; display: block;
+}
+
+/* DECK — the one supporting line */
+.deck {
+  margin-top: 22px;
+  font-family: var(--fb);
+  font-size: clamp(.88rem, 1.6vw, 1.05rem);
+  font-weight: 300;
+  letter-spacing: .06em;
+  color: var(--muted);
+  line-height: 1.7;
+  opacity: 0; transform: translateY(12px);
+  animation: riseIn .9s var(--ease) .78s forwards;
+}
+.deck em { font-style: italic; color: #a09878; }
+
+/* COVER RULE */
+.cover-rule {
+  margin: 26px auto 0;
+  width: 0; height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%, rgba(176,138,60,.35) 15%,
+    var(--gold-lt) 50%,
+    rgba(176,138,60,.35) 85%, transparent 100%);
+  animation: rulerGrow 1.1s var(--ease) 1s forwards;
+}
+
+/* MICRO DETAIL — bottom cover copy */
+.cover-micro {
+  margin-top: 22px;
+  font-size: .64rem; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--dim);
+  font-family: var(--fb); font-weight: 400;
+  opacity: 0; transform: translateY(8px);
+  animation: riseIn .8s var(--ease) 1.14s forwards;
+}
+
+/* ─── COVER STRIP (magazine-bottom) ─── */
+.cover-strip {
+  padding-bottom: 32px;
+  opacity: 0; transform: translateY(10px);
+  animation: riseIn .85s var(--ease) 1.26s forwards;
+}
+.strip-inner {
+  display: flex; align-items: center; justify-content: center; gap: 28px;
+  flex-wrap: wrap;
+}
+.strip-item {
+  display: flex; align-items: center; gap: 7px;
+  font-size: .64rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--dim); font-family: var(--fb);
+  transition: color .5s var(--ease);
+  cursor: default;
+}
+.strip-item:hover { color: var(--muted); }
+.strip-dot {
+  width: 3px; height: 3px; border-radius: 50%;
+  background: var(--dim);
+  transition: background .5s var(--ease);
+}
+.strip-item:hover .strip-dot { background: var(--gold); }
+/* separator */
+.strip-sep {
+  width: 1px; height: 12px;
+  background: var(--dim); opacity: .5;
+}
+
+/* ─── CORNER MARKS (fashion editorial detail) ─── */
+.corner {
+  position: fixed; z-index: 3; pointer-events: none;
+  width: 18px; height: 18px;
+  opacity: 0; animation: riseIn 1s var(--ease) 1.4s forwards;
+}
+.corner::before, .corner::after {
+  content: ""; position: absolute;
+  background: rgba(176,138,60,.28);
+}
+.corner::before { width: 100%; height: 1px; top: 0; left: 0; }
+.corner::after  { width: 1px; height: 100%; top: 0; left: 0; }
+.c-tl { top: 20px; left: 20px; }
+.c-tr { top: 20px; right: 20px; transform: scaleX(-1); }
+.c-bl { bottom: 20px; left: 20px; transform: scaleY(-1); }
+.c-br { bottom: 20px; right: 20px; transform: scale(-1); }
+
+/* ─── SWEEP CURSOR RESPONSE ─── */
+/* Subtle radial that follows the mouse — purely atmospheric */
+.cursor-light {
+  position: fixed; z-index: 1; pointer-events: none;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(176,138,60,.038) 0%, transparent 65%);
+  filter: blur(2px);
+  transform: translate(-50%, -50%);
+  transition: opacity .6s var(--ease);
+  opacity: 0;
+  top: 50%; left: 50%;
+}
+
+/* ─── KEYFRAMES ─── */
+@keyframes riseIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes coverReveal {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes rulerGrow {
+  from { width: 0; opacity: 0; }
+  to   { width: min(100%, 220px); opacity: 1; }
+}
+@keyframes orbDrift {
+  0%,100% { transform: translate3d(0,0,0) scale(1); }
+  34%     { transform: translate3d(18px,14px,0) scale(1.022); }
+  66%     { transform: translate3d(-10px,30px,0) scale(.978); }
+}
+@keyframes gridDrift {
+  0%   { transform: translate3d(0,0,0); }
+  100% { transform: translate3d(0,88px,0); }
+}
+@keyframes grain {
+  0%   { transform: translate(0,0); }
+  25%  { transform: translate(-1px, 1px); }
+  50%  { transform: translate(1px,-1px); }
+  75%  { transform: translate(1px, 1px); }
+}
+
+/* ─── REDUCED MOTION ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .masthead-inner, .cover-ornament, .headline, .deck,
+  .cover-micro, .cover-strip, .corner { opacity: 1 !important; transform: none !important; }
+  .cover-rule { width: 220px !important; opacity: 1 !important; }
+  .cursor-light { display: none !important; }
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 640px) {
+  .masthead { padding-top: 28px; }
+  .wordmark { letter-spacing: .3em; margin-right: -.3em; }
+  .cover { padding: 0 20px; }
+  .headline em { display: inline; }
+  .strip-sep { display: none; }
+  .strip-inner { gap: 16px; }
+  .corner { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- AMBIENT -->
+<div class="field" aria-hidden="true">
+  <div class="field-bg"></div>
+  <div class="orb"></div>
+  <div class="grid"></div>
+  <div class="film"></div>
+</div>
+
+<!-- CURSOR LIGHT -->
+<div class="cursor-light" id="cursorLight" aria-hidden="true"></div>
+
+<!-- CORNER MARKS -->
+<div class="corner c-tl" aria-hidden="true"></div>
+<div class="corner c-tr" aria-hidden="true"></div>
+<div class="corner c-bl" aria-hidden="true"></div>
+<div class="corner c-br" aria-hidden="true"></div>
+
+<!-- PAGE -->
+<div class="page">
+
+  <!-- MASTHEAD -->
+  <header class="masthead" role="banner">
+    <div class="masthead-inner">
+      <div class="wordmark">BoldPage</div>
+      <div class="masthead-rule">
+        <div class="masthead-rule-line"></div>
+        <span class="edition-tag">Vol. I &nbsp;·&nbsp; 2026</span>
+        <div class="masthead-rule-line r"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- COVER / HERO -->
+  <main class="cover" role="main">
+    <div class="cover-inner">
+
+      <div class="cover-ornament" aria-hidden="true">
+        <div class="orn-line"></div>
+        <div class="orn-diamond"></div>
+        <div class="orn-line r"></div>
+      </div>
+
+      <h1 class="headline">
+        THE BOLD<br/>
+        <em>TRUTH</em>
+      </h1>
+
+      <p class="deck">
+        for people and places of value
+      </p>
+
+      <div class="cover-rule" role="presentation"></div>
+
+      <p class="cover-micro">SELECTED FIGURES &nbsp;&nbsp;•&nbsp;&nbsp; NOTABLE PLACES &nbsp;&nbsp;•&nbsp;&nbsp; THE BOLD TRUTH</p>
+
+    </div>
+  </main>
+
+  <!-- STRIP -->
+  <footer class="cover-strip" role="contentinfo">
+    <div class="strip-inner">
+      <div class="strip-item">
+        <span class="strip-dot"></span>
+        <span>NOT PUBLICLY SUBMITTED</span>
+      </div>
+      <div class="strip-sep" aria-hidden="true"></div>
+      <div class="strip-item">
+        <span class="strip-dot"></span>
+        <span>PLACED SELECTIVELY</span>
+      </div>
+      <div class="strip-sep" aria-hidden="true"></div>
+      <div class="strip-item">
+        <span class="strip-dot"></span>
+        <span>ISSUED BY SELECTION</span>
+      </div>
+      <div class="strip-sep" aria-hidden="true"></div>
+      <div class="strip-item">
+        <span class="strip-dot"></span>
+        <span>WE DO NOT SELL OUR SERVICES</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+  const pref = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (pref) return;
+
+  const light = document.getElementById('cursorLight');
+  if (!light) return;
+
+  let visible  = false;
+  let targetX  = window.innerWidth  / 2;
+  let targetY  = window.innerHeight / 2;
+  let currentX = targetX;
+  let currentY = targetY;
+  let raf      = null;
+
+  /* Lerp for smooth trailing */
+  const lerp = (a, b, t) => a + (b - a) * t;
+
+  const tick = () => {
+    currentX = lerp(currentX, targetX, 0.06);
+    currentY = lerp(currentY, targetY, 0.06);
+    light.style.left = currentX + 'px';
+    light.style.top  = currentY + 'px';
+    raf = requestAnimationFrame(tick);
+  };
+
+  document.addEventListener('mousemove', e => {
+    targetX = e.clientX;
+    targetY = e.clientY;
+    if (!visible) {
+      visible = true;
+      light.style.opacity = '1';
+      if (!raf) raf = requestAnimationFrame(tick);
+    }
+  }, { passive: true });
+
+  document.addEventListener('mouseleave', () => {
+    visible = false;
+    light.style.opacity = '0';
+  });
+})();
+</script>
+</body>
+</html>
