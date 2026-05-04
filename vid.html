@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Private Stream</title>
+    <style>
+        body { margin: 0; background: #050505; font-family: sans-serif; color: #fff; text-align: center; }
+        .header { background: #111; padding: 10px; font-size: 11px; color: #666; border-bottom: 1px solid #222; text-transform: uppercase; }
+        .container { max-width: 600px; margin: 0 auto; padding: 15px; }
+        
+        /* Realistic Video Player Mockup */
+        .video-player {
+            width: 100%; aspect-ratio: 16/9; background: #000 url('https://picsum.photos') center/cover;
+            border-radius: 4px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        .live-tag { position: absolute; top: 15px; left: 15px; background: rgba(255,0,0,0.8); padding: 3px 8px; border-radius: 2px; font-size: 11px; font-weight: bold; }
+        
+        /* Control Bar Overlay */
+        .controls {
+            position: absolute; bottom: 0; left: 0; right: 0; 
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 10px 15px; display: flex; flex-direction: column; gap: 8px;
+        }
+        .scrubber-container { width: 100%; height: 4px; background: rgba(255,255,255,0.2); position: relative; border-radius: 2px; }
+        .scrubber-fill { width: 0%; height: 100%; background: #ff0000; border-radius: 2px; position: relative; }
+        .scrubber-fill::after { content: ''; position: absolute; right: -5px; top: -4px; width: 12px; height: 12px; background: #ff0000; border-radius: 50%; }
+        
+        .bottom-icons { display: flex; justify-content: space-between; align-items: center; font-size: 14px; opacity: 0.9; }
+        .left-icons { display: flex; gap: 15px; }
+        
+        /* The Big Play Button */
+        .center-play {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 70px; height: 70px; background: rgba(0,0,0,0.6); border: 2px solid #fff;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 30px; cursor: pointer; transition: 0.3s;
+        }
+
+        h1 { font-size: 1.2em; margin: 20px 0 5px; text-align: left; }
+        .desc { font-size: 14px; color: #bbb; text-align: left; margin-bottom: 20px; }
+
+        /* The CPA Button */
+        .cta-btn {
+            display: block; width: 100%; padding: 20px 0; background: #ff0050; 
+            color: #fff; text-decoration: none; font-size: 1.3em; font-weight: bold;
+            border-radius: 6px; box-shadow: 0 4px 20px rgba(255, 0, 80, 0.4);
+            opacity: 0.5; pointer-events: none; transition: 0.3s;
+        }
+        .cta-btn.active { opacity: 1; pointer-events: auto; }
+        .timer-msg { font-size: 13px; color: #ffcc00; margin-top: 10px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="header">PRIVATE STREAM • ENCRYPTED CONNECTION</div>
+
+<div class="container">
+    <div class="video-player">
+        <div class="live-tag">● LIVE</div>
+        <div class="center-play">▶</div>
+        
+        <div class="controls">
+            <div class="scrubber-container">
+                <div class="scrubber-fill" id="progress"></div>
+            </div>
+            <div class="bottom-icons">
+                <div class="left-icons">
+                    <span>▶</span><span>🔊</span><span>04:12 / 18:45</span>
+                </div>
+                <div><span>HD ⚙️</span></div>
+            </div>
+        </div>
+    </div>
+
+    <h1>My private vid from last night... 🔥</h1>
+    <p class="desc">Only sending this to a few people from the chat. Enjoy!</p>
+
+    <a href="YOUR_LINK_HERE" class="cta-btn" id="main-btn">CLICK TO PLAY FULL VIDEO</a>
+    <div class="timer-msg" id="status">Syncing with server... <span id="timer">3</span>s</div>
+</div>
+
+<script>
+    let time = 3;
+    const btn = document.getElementById('main-btn');
+    const bar = document.getElementById('progress');
+    const timerText = document.getElementById('timer');
+    const status = document.getElementById('status');
+
+    const countdown = setInterval(() => {
+        time--;
+        if (time >= 0) timerText.innerText = time;
+        bar.style.width = (100 - (time * 33.3)) + "%";
+
+        if (time <= 0) {
+            clearInterval(countdown);
+            status.innerHTML = "✅ READY TO VIEW";
+            btn.classList.add('active');
+        }
+    }, 1000);
+</script>
+
+</body>
+</html>
