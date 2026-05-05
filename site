@@ -1,1 +1,154 @@
- 
+ /*
+  LARP SHOP SITE CONFIG
+  File: site-config.js
+
+  This is the single source of truth for:
+  - support email
+  - final page routes
+  - cart keys
+  - checkout endpoint
+  - success/cancel URLs
+  - asset folder paths
+*/
+
+(function () {
+  "use strict";
+
+  const CONFIG = {
+    siteName: "LARP Shop",
+    tagline: "Look funded before you are.",
+
+    /*
+      Temporary support email.
+      You can keep this for now.
+      Later, replace it once here with a domain email.
+    */
+    supportEmail: "goochus2002@gmail.com",
+
+    /*
+      Final lowercase page routes.
+      Keep these filenames exact.
+    */
+    routes: {
+      home: "index.html",
+      physical: "physical.html",
+      physicalItem: "physical-item.html",
+      digital: "digital.html",
+      digitalItem: "digital-item.html",
+      checkout: "checkout.html",
+      success: "success.html",
+      cancel: "cancel.html",
+      faq: "faq.html",
+      policies: "policies.html",
+      notFound: "404.html"
+    },
+
+    /*
+      Shared cart keys.
+      Do not change these unless you update all saved carts.
+    */
+    storage: {
+      physicalCartKey: "larp_shop_cart_v11",
+      digitalCartKey: "larp_shop_digital_v4_cart"
+    },
+
+    /*
+      Checkout config.
+      This endpoint gets connected later when Stripe/backend is ready.
+    */
+    checkout: {
+      endpoint: "/api/create-checkout-session",
+      currency: "USD",
+      provider: "stripe",
+      successUrl: "success.html?session_id={CHECKOUT_SESSION_ID}",
+      cancelUrl: "cancel.html",
+      fallbackMode: "payload-preview"
+    },
+
+    /*
+      Asset folder rules.
+      Product images are referenced inside item.js.
+    */
+    assets: {
+      root: "assets/",
+      productRoot: "assets/products/",
+      physicalRoot: "assets/products/physical/",
+      digitalRoot: "assets/products/digital/",
+      logoRoot: "assets/logo/",
+      fallbackPhysical: "assets/products/fallback-physical.png",
+      fallbackDigital: "assets/products/fallback-digital.png"
+    },
+
+    labels: {
+      physical: "Physical",
+      digital: "Digital",
+      checkout: "Checkout",
+      faq: "FAQ",
+      policies: "Policies"
+    }
+  };
+
+  function route(name) {
+    return CONFIG.routes[name] || "#";
+  }
+
+  function cartKey(lane) {
+    if (lane === "physical") return CONFIG.storage.physicalCartKey;
+    if (lane === "digital") return CONFIG.storage.digitalCartKey;
+    return "";
+  }
+
+  function money(value) {
+    return "$" + Number(value || 0).toLocaleString();
+  }
+
+  function supportMailto(subject, body) {
+    const email = CONFIG.supportEmail;
+    const parts = [];
+
+    if (subject) {
+      parts.push("subject=" + encodeURIComponent(subject));
+    }
+
+    if (body) {
+      parts.push("body=" + encodeURIComponent(body));
+    }
+
+    return "mailto:" + email + (parts.length ? "?" + parts.join("&") : "");
+  }
+
+  function productUrl(item) {
+    if (!item) return "#";
+
+    if (item.lane === "physical") {
+      return CONFIG.routes.physicalItem + "?id=" + encodeURIComponent(item.id);
+    }
+
+    if (item.lane === "digital") {
+      return CONFIG.routes.digitalItem + "?id=" + encodeURIComponent(item.id);
+    }
+
+    return "#";
+  }
+
+  function checkoutPayloadBase() {
+    return {
+      site: CONFIG.siteName,
+      currency: CONFIG.checkout.currency,
+      provider: CONFIG.checkout.provider,
+      created_at: new Date().toISOString()
+    };
+  }
+
+  window.LARP_CONFIG = CONFIG;
+
+  window.LARP_SITE = {
+    config: CONFIG,
+    route: route,
+    cartKey: cartKey,
+    money: money,
+    supportMailto: supportMailto,
+    productUrl: productUrl,
+    checkoutPayloadBase: checkoutPayloadBase
+  };
+})();
