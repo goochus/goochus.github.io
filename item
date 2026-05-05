@@ -1,1 +1,992 @@
- 
+ /*
+  LARP SHOP ITEM DATA
+  File: item.js
+
+  This is the single source of truth for Physical + Digital items.
+
+  Used by:
+  - index.html
+  - physical.html
+  - physical-item.html
+  - digital.html
+  - digital-item.html
+  - checkout.html
+
+  Image setup:
+  For now, image/thumb are blank so the pages use symbol fallback art.
+  Later, when you have real images, fill in:
+  image: "assets/products/physical/funded-cap/main.png"
+  thumb: "assets/products/physical/funded-cap/thumb.png"
+*/
+
+(function () {
+  "use strict";
+
+  const PHYSICAL_ITEMS = [
+    {
+      id: "oil-heir-wristpiece",
+      lane: "physical",
+      type: "physical",
+      category: "wear",
+      name: "Oil Heir Wristpiece",
+      price: 34,
+      symbol: "⌚",
+      badge: "Wear",
+      tagline: "A wrist-level signal for the funded-looking act.",
+      shortDescription: "A visible wristpiece for photos, mirror shots, desk setups, and the rich-looking frame.",
+      description: "A physical image piece meant to help the outfit or photo frame look more intentional.",
+      bullets: [
+        "Useful for outfit photos and mirror shots.",
+        "Adds a visible status-style detail.",
+        "Built for the Physical gear lane."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 1
+    },
+    {
+      id: "ghost-money-shades",
+      lane: "physical",
+      type: "physical",
+      category: "wear",
+      name: "Ghost Money Shades",
+      price: 28,
+      symbol: "◩",
+      badge: "Wear",
+      tagline: "Dark shades for the money-coded photo frame.",
+      shortDescription: "A clean visible prop for selfies, car shots, mirror shots, and outside-the-building energy.",
+      description: "A wearable visual signal for the LARP Shop physical lane.",
+      bullets: [
+        "Good for outdoor and mirror photos.",
+        "Simple visible upgrade.",
+        "Pairs with other Physical props."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 2
+    },
+    {
+      id: "boardroom-card-holder",
+      lane: "physical",
+      type: "physical",
+      category: "desk",
+      name: "Boardroom Card Holder",
+      price: 22,
+      symbol: "▤",
+      badge: "Desk",
+      tagline: "A desk prop that makes the setup look more official.",
+      shortDescription: "A small physical piece for desk photos, table shots, and business-coded setups.",
+      description: "A physical prop for making a desk, counter, or table setup look more intentional.",
+      bullets: [
+        "Built for desk and table photos.",
+        "Adds an official-looking detail.",
+        "Easy to stage with other props."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 3
+    },
+    {
+      id: "deal-desk-plaque",
+      lane: "physical",
+      type: "physical",
+      category: "desk",
+      name: "Deal Desk Plaque",
+      price: 31,
+      symbol: "▣",
+      badge: "Desk",
+      tagline: "A desk piece for the office-looking act.",
+      shortDescription: "A physical desk accent for office-coded photos and funded-looking setups.",
+      description: "A simple physical plaque-style item for making a desk or shelf feel more like a scene.",
+      bullets: [
+        "Good for desk and office shots.",
+        "Creates a cleaner scene.",
+        "Works as a background signal."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 4
+    },
+    {
+      id: "lobby-chain",
+      lane: "physical",
+      type: "physical",
+      category: "wear",
+      name: "Lobby Chain",
+      price: 26,
+      symbol: "◆",
+      badge: "Wear",
+      tagline: "A simple chain for lobby, elevator, and mirror energy.",
+      shortDescription: "A wearable physical signal for quick status-style photos.",
+      description: "A clean physical accessory for when the outfit needs one obvious visible detail.",
+      bullets: [
+        "Wearable visible signal.",
+        "Works in mirror and lobby photos.",
+        "Simple, direct, not overbuilt."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 5
+    },
+    {
+      id: "funded-cap",
+      lane: "physical",
+      type: "physical",
+      category: "wear",
+      name: "Funded Cap",
+      price: 24,
+      symbol: "▲",
+      badge: "Wear",
+      tagline: "A simple cap for the casual funded-looking act.",
+      shortDescription: "A casual physical item for photos that need a cleaner lifestyle signal.",
+      description: "A wearable item for keeping the physical LARP simple and readable.",
+      bullets: [
+        "Casual visible piece.",
+        "Good for lifestyle photos.",
+        "Pairs with shades or wrist props."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 6
+    },
+    {
+      id: "vault-green-tie",
+      lane: "physical",
+      type: "physical",
+      category: "wear",
+      name: "Vault Green Tie",
+      price: 25,
+      symbol: "┃",
+      badge: "Wear",
+      tagline: "A dressed-up signal for business-coded photos.",
+      shortDescription: "A physical wearable for sharper office, dinner, or business-style scenes.",
+      description: "A tie-style physical item for making the outfit read more formal and money-coded.",
+      bullets: [
+        "Formal visual signal.",
+        "Good for business-coded scenes.",
+        "Simple to stage."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 7
+    },
+    {
+      id: "fake-fund-notebook",
+      lane: "physical",
+      type: "physical",
+      category: "desk",
+      name: "Fake Fund Notebook",
+      price: 18,
+      symbol: "✎",
+      badge: "Desk",
+      tagline: "A notebook for the desk that needs to look busy.",
+      shortDescription: "A physical desk prop for notes, table photos, and planning scenes.",
+      description: "A simple physical prop for adding context to desk shots and work-coded content.",
+      bullets: [
+        "Adds work-coded context.",
+        "Easy desk prop.",
+        "Works with pens, cards, and plaques."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 8
+    },
+    {
+      id: "gold-receipt-clip",
+      lane: "physical",
+      type: "physical",
+      category: "photo",
+      name: "Gold Receipt Clip",
+      price: 16,
+      symbol: "≡",
+      badge: "Photo",
+      tagline: "A tiny prop for receipts, cards, and desk shots.",
+      shortDescription: "A physical photo/detail item for small rich-looking scene upgrades.",
+      description: "A small physical accessory for making receipts, cards, and papers look staged on purpose.",
+      bullets: [
+        "Small but visible detail.",
+        "Works for desk or table shots.",
+        "Easy to pair with other props."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 9
+    },
+    {
+      id: "tycoon-ring-set",
+      lane: "physical",
+      type: "physical",
+      category: "wear",
+      name: "Tycoon Ring Set",
+      price: 29,
+      symbol: "◈",
+      badge: "Wear",
+      tagline: "Hand-level details for close-up status shots.",
+      shortDescription: "A physical wearable detail for hands, mirror shots, and lifestyle photos.",
+      description: "A ring-style accessory set for making hand details and outfit shots look more deliberate.",
+      bullets: [
+        "Good for close-up photos.",
+        "Adds detail to hand shots.",
+        "Visible but compact."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 10
+    },
+    {
+      id: "elevator-mirror-case",
+      lane: "physical",
+      type: "physical",
+      category: "photo",
+      name: "Elevator Mirror Case",
+      price: 21,
+      symbol: "▥",
+      badge: "Photo",
+      tagline: "A phone/photo prop for the mirror-shot lane.",
+      shortDescription: "A physical accessory for clean mirror, elevator, and lifestyle shots.",
+      description: "A photo-focused physical piece for making mirror shots feel more styled.",
+      bullets: [
+        "Built for mirror shots.",
+        "Works with outfit content.",
+        "Simple visual upgrade."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 11
+    },
+    {
+      id: "corner-office-nameplate",
+      lane: "physical",
+      type: "physical",
+      category: "desk",
+      name: "Corner Office Nameplate",
+      price: 33,
+      symbol: "▰",
+      badge: "Desk",
+      tagline: "A desk prop for the official-looking scene.",
+      shortDescription: "A physical desk/shelf item for office-coded setup photos.",
+      description: "A nameplate-style item for creating the look of a more official desk or office scene.",
+      bullets: [
+        "Office-coded prop.",
+        "Good for staged desks.",
+        "Pairs with notebook/card holder."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 12
+    },
+    {
+      id: "green-velvet-dice",
+      lane: "physical",
+      type: "physical",
+      category: "room",
+      name: "Green Velvet Dice",
+      price: 19,
+      symbol: "⚂",
+      badge: "Room",
+      tagline: "A small room prop for casino-money energy.",
+      shortDescription: "A physical room/photo prop for shelf, table, and lifestyle scenes.",
+      description: "A room-style prop for giving a setup a darker money/game-room feel.",
+      bullets: [
+        "Room and shelf detail.",
+        "Works as a photo prop.",
+        "Small lifestyle signal."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 13
+    },
+    {
+      id: "champagne-sleeve",
+      lane: "physical",
+      type: "physical",
+      category: "photo",
+      name: "Champagne Sleeve",
+      price: 27,
+      symbol: "◌",
+      badge: "Photo",
+      tagline: "A photo prop for the celebration-coded frame.",
+      shortDescription: "A physical prop for bottle/table/lifestyle shots.",
+      description: "A physical accessory for making celebration-style photos feel more intentional.",
+      bullets: [
+        "Photo-focused prop.",
+        "Works with table setups.",
+        "Good for lifestyle scenes."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 14
+    },
+    {
+      id: "money-fan-prop",
+      lane: "physical",
+      type: "physical",
+      category: "photo",
+      name: "Money Fan Prop",
+      price: 14,
+      symbol: "$",
+      badge: "Photo",
+      tagline: "The blunt photo prop. No mystery.",
+      shortDescription: "A direct money-coded prop for photo scenes and joke-status framing.",
+      description: "A simple physical photo prop for when the frame needs to read money immediately.",
+      bullets: [
+        "Direct visual signal.",
+        "Photo and meme friendly.",
+        "Simple physical prop."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 15
+    },
+    {
+      id: "black-card-holder",
+      lane: "physical",
+      type: "physical",
+      category: "desk",
+      name: "Black Card Holder",
+      price: 20,
+      symbol: "▰",
+      badge: "Desk",
+      tagline: "A clean desk piece for card-coded setups.",
+      shortDescription: "A physical desk prop for cards, tables, and office-style photos.",
+      description: "A simple dark card holder for building a cleaner desk or counter setup.",
+      bullets: [
+        "Desk setup piece.",
+        "Card-coded detail.",
+        "Pairs with notebook and pen set."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 16
+    },
+    {
+      id: "mini-briefcase-stash",
+      lane: "physical",
+      type: "physical",
+      category: "room",
+      name: "Mini Briefcase Stash",
+      price: 36,
+      symbol: "▣",
+      badge: "Room",
+      tagline: "A little briefcase prop for the ridiculous funded scene.",
+      shortDescription: "A physical room/photo prop for high-signal staged setups.",
+      description: "A more obvious prop for room, desk, or photo scenes that need a stronger LARP Shop object.",
+      bullets: [
+        "Strong visual prop.",
+        "Works for room or desk scenes.",
+        "High-LARP physical item."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 17
+    },
+    {
+      id: "vip-door-tag",
+      lane: "physical",
+      type: "physical",
+      category: "room",
+      name: "VIP Door Tag",
+      price: 13,
+      symbol: "★",
+      badge: "Room",
+      tagline: "A small room prop for fake VIP energy.",
+      shortDescription: "A physical room item for door, handle, wall, or photo use.",
+      description: "A small visible prop for adding a VIP-style tag to a room or scene.",
+      bullets: [
+        "Small room detail.",
+        "Easy to stage.",
+        "Funny but readable."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 18
+    },
+    {
+      id: "executive-pen-set",
+      lane: "physical",
+      type: "physical",
+      category: "desk",
+      name: "Executive Pen Set",
+      price: 17,
+      symbol: "✦",
+      badge: "Desk",
+      tagline: "A desk detail for paperwork and fake signatures.",
+      shortDescription: "A physical desk item for work-coded photos and table setups.",
+      description: "A pen-style desk piece for adding a business/work signal to the physical setup.",
+      bullets: [
+        "Desk and document prop.",
+        "Pairs with notebooks.",
+        "Simple official-looking detail."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 19
+    },
+    {
+      id: "gold-frame-shelf-piece",
+      lane: "physical",
+      type: "physical",
+      category: "room",
+      name: "Gold Frame Shelf Piece",
+      price: 23,
+      symbol: "▱",
+      badge: "Room",
+      tagline: "A shelf prop for the room that needs a little wealth glow.",
+      shortDescription: "A physical room/shelf piece for staged background scenes.",
+      description: "A room item for giving shelf or background shots a warmer money-coded detail.",
+      bullets: [
+        "Shelf and room prop.",
+        "Good for background visuals.",
+        "Small but useful staging piece."
+      ],
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 20
+    }
+  ];
+
+  const DIGITAL_ITEMS = [
+    {
+      id: "profile-scan",
+      lane: "digital",
+      type: "digital",
+      format: "tool",
+      category: "tools",
+      name: "Profile Scan",
+      price: 12,
+      symbol: "◎",
+      badge: "Tool",
+      tagline: "A quick check for whether the page looks intentional or random.",
+      shortDescription: "A lightweight digital tool for reviewing the public-facing parts of the online act.",
+      description: "A digital item for checking weak spots in the public-facing profile or page before anyone else does.",
+      bullets: [
+        "Find weak spots in the public-facing frame.",
+        "Works as a simple first pass.",
+        "Useful when the online side feels random."
+      ],
+      access: "Digital delivery confirmed after checkout.",
+      fit: "Best for quick page cleanup and first-impression checks.",
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 21
+    },
+    {
+      id: "bio-builder",
+      lane: "digital",
+      type: "digital",
+      format: "tool",
+      category: "tools",
+      name: "Bio Builder",
+      price: 10,
+      symbol: "ID",
+      badge: "Tool",
+      tagline: "Short identity lines, page text, and clean profile wording.",
+      shortDescription: "A digital tool for making profile text feel cleaner and less random.",
+      description: "A simple builder for making public bio and short profile text feel deliberate.",
+      bullets: [
+        "Creates cleaner short profile wording.",
+        "Helps the page feel more intentional.",
+        "Useful before bigger digital upgrades."
+      ],
+      access: "Digital delivery confirmed after checkout.",
+      fit: "Best for bios, page text, short identity lines, and first impression wording.",
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 22
+    },
+    {
+      id: "image-checklist",
+      lane: "digital",
+      type: "digital",
+      format: "tool",
+      category: "tools",
+      name: "Image Checklist",
+      price: 8,
+      symbol: "✓",
+      badge: "Tool",
+      tagline: "A fast pre-post check for the visible digital frame.",
+      shortDescription: "A practical checklist for catching sloppy digital presentation issues.",
+      description: "A digital checklist for catching details that make an online image feel unfinished.",
+      bullets: [
+        "Catches small issues before posting.",
+        "Keeps the image from looking accidental.",
+        "Works with physical props and digital presentation."
+      ],
+      access: "Digital delivery confirmed after checkout.",
+      fit: "Best for quick checks before posting or publishing.",
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 23
+    },
+    {
+      id: "caption-vault",
+      lane: "digital",
+      type: "digital",
+      format: "tool",
+      category: "tools",
+      name: "Caption Vault",
+      price: 9,
+      symbol: "“”",
+      badge: "Tool",
+      tagline: "Caption options that do not sound like a motivational poster.",
+      shortDescription: "A flexible bank of short captions and text structures for posts.",
+      description: "A digital item for making posts feel cleaner and less forced through better short-form wording.",
+      bullets: [
+        "Keeps captions short and usable.",
+        "Avoids fake-inspirational wording.",
+        "Pairs well with photo-based Physical items."
+      ],
+      access: "Digital delivery confirmed after checkout.",
+      fit: "Best for posts, stories, photo captions, and quick text ideas.",
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 24
+    },
+    {
+      id: "online-act-starter",
+      lane: "digital",
+      type: "digital",
+      format: "program",
+      category: "programs",
+      name: "Online Act Starter",
+      price: 19,
+      symbol: "↗",
+      badge: "Program",
+      tagline: "A structured first pass for making the digital side less messy.",
+      shortDescription: "A starter program for tightening the basic online presentation.",
+      description: "A broad starter program for tightening page, wording, rhythm, and visible digital signals.",
+      bullets: [
+        "Gives the online side a starting structure.",
+        "Useful when the page has no clear direction.",
+        "Keeps changes simple instead of overbuilt."
+      ],
+      access: "Digital delivery confirmed after checkout.",
+      fit: "Best for starting from a messy or unfinished online presence.",
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 25
+    },
+    {
+      id: "profile-reset-plan",
+      lane: "digital",
+      type: "digital",
+      format: "program",
+      category: "programs",
+      name: "Profile Reset Plan",
+      price: 24,
+      symbol: "▦",
+      badge: "Program",
+      tagline: "For when the page feels like five versions of the same person.",
+      shortDescription: "A fuller cleanup plan for rebuilding the online image.",
+      description: "A more complete digital cleanup plan for rebuilding the online image into something consistent.",
+      bullets: [
+        "Helps rebuild a messy profile direction.",
+        "Improves consistency across posts and presentation.",
+        "Works as a larger digital cleanup step."
+      ],
+      access: "Digital delivery confirmed after checkout.",
+      fit: "Best for profiles that need a fuller reset, not just one small fix.",
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 26
+    },
+    {
+      id: "digital-larp-stack",
+      lane: "digital",
+      type: "digital",
+      format: "program",
+      category: "programs",
+      name: "Digital LARP Stack",
+      price: 29,
+      symbol: "⌘",
+      badge: "Program",
+      tagline: "A compact stack for building the online side of the act.",
+      shortDescription: "A program-style set of digital steps, checks, and systems.",
+      description: "A digital program for making the online presentation feel more complete through structured steps.",
+      bullets: [
+        "Combines multiple digital cleanup ideas.",
+        "Works for the broader online act.",
+        "Good when one single tool is not enough."
+      ],
+      access: "Digital delivery confirmed after checkout.",
+      fit: "Best for a fuller digital setup with multiple moving parts.",
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 27
+    },
+    {
+      id: "weekly-frame-system",
+      lane: "digital",
+      type: "digital",
+      format: "program",
+      category: "programs",
+      name: "Weekly Frame System",
+      price: 18,
+      symbol: "∆",
+      badge: "Program",
+      tagline: "A repeatable system for keeping the digital image from drifting.",
+      shortDescription: "A weekly review system for maintaining the online side.",
+      description: "A digital review system for checking what is helping, what looks weak, and what needs adjustment.",
+      bullets: [
+        "Keeps the online side from getting sloppy again.",
+        "Adds a repeatable review loop.",
+        "Useful after the first cleanup."
+      ],
+      access: "Digital delivery confirmed after checkout.",
+      fit: "Best for maintaining the digital act week by week.",
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 28
+    },
+    {
+      id: "profile-polish-request",
+      lane: "digital",
+      type: "digital",
+      format: "service",
+      category: "services",
+      name: "Profile Polish Request",
+      price: 35,
+      symbol: "◆",
+      badge: "Service",
+      tagline: "Request-based cleanup for the public-facing page.",
+      shortDescription: "A manual digital request for profile cleanup and direction.",
+      description: "A service-style digital item for making a public profile feel cleaner and sharper.",
+      bullets: [
+        "More tailored than a basic tool.",
+        "Useful when the issue needs judgment.",
+        "Fits the service side of the Digital room."
+      ],
+      access: "Details confirmed after checkout.",
+      fit: "Best for custom help on a public profile or page.",
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 29
+    },
+    {
+      id: "caption-help-request",
+      lane: "digital",
+      type: "digital",
+      format: "service",
+      category: "services",
+      name: "Caption Help Request",
+      price: 20,
+      symbol: "✎",
+      badge: "Service",
+      tagline: "Custom caption direction for posts that need better wording.",
+      shortDescription: "A request-based digital service for sharper wording direction.",
+      description: "A service-style digital item for better wording around a specific post or profile angle.",
+      bullets: [
+        "Better for specific posts than generic banks.",
+        "Helps avoid awkward wording.",
+        "Useful when the visual is ready but text is not."
+      ],
+      access: "Details confirmed after checkout.",
+      fit: "Best for specific captions, post wording, and content text.",
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 30
+    },
+    {
+      id: "page-direction-request",
+      lane: "digital",
+      type: "digital",
+      format: "service",
+      category: "services",
+      name: "Page Direction Request",
+      price: 45,
+      symbol: "◉",
+      badge: "Service",
+      tagline: "A broader look at what the online side should become.",
+      shortDescription: "A custom direction request for the public-facing digital world.",
+      description: "A service-style item for making the digital presentation feel more consistent.",
+      bullets: [
+        "Good for broad direction instead of one small fix.",
+        "Helps decide what the page should become.",
+        "Useful before building more digital assets."
+      ],
+      access: "Details confirmed after checkout.",
+      fit: "Best for broader public-facing page direction.",
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 31
+    },
+    {
+      id: "digital-room-request",
+      lane: "digital",
+      type: "digital",
+      format: "service",
+      category: "services",
+      name: "Digital Room Request",
+      price: 55,
+      symbol: "▧",
+      badge: "Service",
+      tagline: "Custom help for a specific digital idea, page, or online setup.",
+      shortDescription: "A flexible request-based digital offer for unusual online needs.",
+      description: "A flexible digital service for projects that do not fit neatly into a normal tool or article.",
+      bullets: [
+        "Flexible enough for unusual digital needs.",
+        "Works when a normal product card is too narrow.",
+        "Keeps the shop broad without overexplaining."
+      ],
+      access: "Details confirmed after checkout.",
+      fit: "Best for custom digital setups, ideas, or specific requests.",
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 32
+    },
+    {
+      id: "rich-looking-act",
+      lane: "digital",
+      type: "digital",
+      format: "article",
+      category: "articles",
+      name: "The Rich-Looking Act",
+      price: 7,
+      symbol: "$",
+      badge: "Article",
+      tagline: "A blunt breakdown of why the signal matters.",
+      shortDescription: "A paywalled article about the online LARP economy and image signals.",
+      description: "An article about image signals and why the act falls apart when the details do not match.",
+      bullets: [
+        "Explains the digital image economy.",
+        "Good entry item for the article lane.",
+        "Useful context before buying bigger items."
+      ],
+      access: "Digital article access confirmed after checkout.",
+      fit: "Best for reading and understanding the online signal game.",
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 33
+    },
+    {
+      id: "profile-snitching",
+      lane: "digital",
+      type: "digital",
+      format: "article",
+      category: "articles",
+      name: "When The Profile Snitches",
+      price: 6,
+      symbol: "!",
+      badge: "Article",
+      tagline: "How the page gives away the act before the outfit does.",
+      shortDescription: "A short article on the digital tells that break the frame.",
+      description: "An article about little profile details that make a presentation feel fake, weak, or unfinished.",
+      bullets: [
+        "Shows what breaks the online frame.",
+        "Easy read for catching obvious leaks.",
+        "Pairs well with profile tools."
+      ],
+      access: "Digital article access confirmed after checkout.",
+      fit: "Best for understanding why a profile can ruin the presentation.",
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 34
+    },
+    {
+      id: "fake-funded-playbook",
+      lane: "digital",
+      type: "digital",
+      format: "article",
+      category: "articles",
+      name: "Fake Funded Playbook",
+      price: 9,
+      symbol: "♟",
+      badge: "Article",
+      tagline: "The strategy behind looking more put together online.",
+      shortDescription: "A paywalled guide-style article on building a cleaner online frame.",
+      description: "A guide-style article on building a cleaner online frame around the rich-looking act.",
+      bullets: [
+        "Gives strategy behind the broader image.",
+        "Useful before choosing tools or services.",
+        "Fits the digital playbook lane."
+      ],
+      access: "Digital article access confirmed after checkout.",
+      fit: "Best for people who want the why behind the digital side.",
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 35
+    },
+    {
+      id: "status-signal-map",
+      lane: "digital",
+      type: "digital",
+      format: "article",
+      category: "articles",
+      name: "Status Signal Map",
+      price: 8,
+      symbol: "◇",
+      badge: "Article",
+      tagline: "What people notice before they realize they noticed it.",
+      shortDescription: "A digital article about small signals, profile cues, and content framing.",
+      description: "An article about profile cues, content framing, and how the image reads at a glance.",
+      bullets: [
+        "Breaks down small visual and text signals.",
+        "Useful for sharpening the online frame.",
+        "Works with both Physical and Digital lanes."
+      ],
+      access: "Digital article access confirmed after checkout.",
+      fit: "Best for understanding small signals in the online act.",
+      image: "",
+      thumb: "",
+      gallery: [],
+      active: true,
+      featured: 36
+    }
+  ];
+
+  function activeOnly(items) {
+    return items.filter(function (item) {
+      return item.active !== false;
+    });
+  }
+
+  function byFeatured(a, b) {
+    return (a.featured || 9999) - (b.featured || 9999);
+  }
+
+  function normalizeLane(lane) {
+    if (!lane) return "";
+    return String(lane).toLowerCase().trim();
+  }
+
+  function getAllItems() {
+    return activeOnly(PHYSICAL_ITEMS.concat(DIGITAL_ITEMS)).sort(byFeatured);
+  }
+
+  function getPhysicalItems() {
+    return activeOnly(PHYSICAL_ITEMS).sort(byFeatured);
+  }
+
+  function getDigitalItems() {
+    return activeOnly(DIGITAL_ITEMS).sort(byFeatured);
+  }
+
+  function findItem(id, lane) {
+    const normalizedLane = normalizeLane(lane);
+    const allItems = getAllItems();
+
+    return allItems.find(function (item) {
+      if (normalizedLane) {
+        return item.id === id && item.lane === normalizedLane;
+      }
+
+      return item.id === id;
+    }) || null;
+  }
+
+  function getRelatedItems(item, limit) {
+    if (!item) return [];
+
+    const max = typeof limit === "number" ? limit : 4;
+    const sameLane = getAllItems().filter(function (candidate) {
+      return candidate.id !== item.id && candidate.lane === item.lane;
+    });
+
+    const related = sameLane.filter(function (candidate) {
+      return candidate.category === item.category || candidate.format === item.format;
+    });
+
+    const fallback = sameLane.filter(function (candidate) {
+      return !related.some(function (rel) {
+        return rel.id === candidate.id;
+      });
+    });
+
+    return related.concat(fallback).slice(0, max);
+  }
+
+  function itemToCartLine(item, quantity) {
+    const qty = Math.max(1, Number(quantity) || 1);
+
+    return {
+      id: item.id,
+      lane: item.lane,
+      name: item.name,
+      unit_price: item.price,
+      quantity: qty,
+      line_total: item.price * qty
+    };
+  }
+
+  window.LARP_ITEMS = {
+    physical: PHYSICAL_ITEMS,
+    digital: DIGITAL_ITEMS,
+    all: PHYSICAL_ITEMS.concat(DIGITAL_ITEMS),
+    getAll: getAllItems,
+    getPhysical: getPhysicalItems,
+    getDigital: getDigitalItems,
+    find: findItem,
+    related: getRelatedItems,
+    toCartLine: itemToCartLine
+  };
+})();
